@@ -23,6 +23,7 @@ async function fetchTodo(Id) {
 
 //initializer to startup the page
 async function load() {
+
   //get all todo items from api
   const allTodo = await fetchTodo(0);
 
@@ -54,19 +55,36 @@ async function filterTodo() {
   displayTodo(data);
 }
 
-//format todo in table
+//format todo items in the table
 function displayTodo(list) {
   const todoList = document.getElementById('to-do-list');
   const rows = todoList.rows.length;
 
+  //clear the items in the table
   if (rows != 0) {
     todoList.innerHTML = '';
   }
 
+  //add new items
   for (const todo of list) {
-    //create element tag
-    newTodo = document.createElement('tr');
+    //parent nodes for elements
+    newTodo = document.createElement('tr'); //row
+    newStatus = document.createElement('input'); //checkbox
+
+    //create checkbox element 
+    newStatus.setAttribute('class', 'form-check-input');
+    newStatus.setAttribute('type', 'checkbox');
+    newStatus.setAttribute('disabled', true);
+    if (todo.completed) {
+      newStatus.setAttribute('checked', true);
+      newTodo.style.textDecoration = 'line-through';
+    }
+
+    //todo item title
     newTodo.innerHTML = `<td>${todo.userId}: ${todo.title}</td>`;
+
+    //<tr> => <input> => <td> 
+    newTodo.insertBefore(newStatus, newTodo.firstChild);
     todoList.appendChild(newTodo);
   }
 }
