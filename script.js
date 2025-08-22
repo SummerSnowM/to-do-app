@@ -40,7 +40,7 @@ async function load() {
     const newUserId = document.createElement('option');
     newUserId.setAttribute('data-value', number);
     newUserId.setAttribute('class', "bg-white text-dark");
-    newUserId.innerHTML = `${number}`;
+    newUserId.innerHTML = `User ID: ${number}`;
     userIdInput.appendChild(newUserId);
   }
 
@@ -51,7 +51,8 @@ async function load() {
 //filter todo items based on selected user id
 async function filterTodo() {
   userId = userIdInput.value;
-  const data = await fetchTodo(userId);
+  const id = userId.match(/\d+/);
+  const data = await fetchTodo(id);
   displayTodo(data);
 }
 
